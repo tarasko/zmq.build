@@ -1,0 +1,14 @@
+Prerequishes
+1. Installed Microsoft Visual Studio
+2. Installed JDK (JDK x64 if you want to build x64 version)
+3. Installed git 
+4. Installed cmake 4.8
+
+Building steps:
+1. Microsoft Visual Studio Tool/Microsoft Visual Studio command prompt
+You can run command prompt either for x86 or x64.
+
+2. set JAVA_HOME=<path to jdk>
+You must point here path to x64 java if you started x64 command prompt
+
+3. Invoke build.cmd
