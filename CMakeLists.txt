@@ -16,8 +16,8 @@ Remove the CMakeCache.txt file and try again from another folder, e.g.:
 ")
 endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
-add_subdirectory(zeromq-2.2.0)
-add_subdirectory(zeromq-jzmq-8522576)
+add_subdirectory(zeromq2-x)
+add_subdirectory(jzmq)
 
 include(InstallRequiredSystemLibraries)
 
