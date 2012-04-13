@@ -7,10 +7,7 @@
 //
 //  Olivier Chamoux <olivier.chamoux@fr.thalesgroup.com>
 //
-#include <zmq.hpp>
-#include <sstream>
-#include <iostream>
-#include "sleep.hpp"
+#include "zhelpers.hpp"
 
 int main (int argc, char *argv[])
 {
@@ -36,14 +33,14 @@ int main (int argc, char *argv[])
         iss >> workload;
 
         //  Do the work
-        msec_sleep(workload);
+        s_sleep(workload);
 
         //  Send results to sink
         message.rebuild();
         sender.send(message);
 
         //  Simple progress indicator for the viewer
-        std::cout << "." << std::flush;
+		std::cout << "." << std::flush;
     }
     return 0;
 }

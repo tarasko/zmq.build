@@ -4,3 +4,6 @@
 [submodule "jzmq"]
 	path = jzmq
 	url = https://github.com/zeromq/jzmq.git
+[submodule "zguide"]
+	path = zguide
+	url = https://github.com/imatix/zguide.git

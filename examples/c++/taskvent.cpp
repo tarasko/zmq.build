@@ -10,13 +10,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <iostream>
-
-#define within(num) (int) ((float) num * rand () / (RAND_MAX + 1.0))
-#ifdef _MSC_VER
-# define SNPRINTF _snprintf
-#else
-# define SNPRINTF snprintf
-#endif
+#include "zhelpers.hpp"
 
 int main (int argc, char *argv[])
 {
@@ -28,7 +22,7 @@ int main (int argc, char *argv[])
 
     std::cout << "Press Enter when the workers are ready: " <<std::endl;
     getchar ();
-    std::cout << "Sending tasks to workers…\n" << std::endl;
+    std::cout << "Sending tasks to workers...\n" << std::endl;
 
     //  The first message is "0" and signals start of batch
     zmq::socket_t sink(context, ZMQ_PUSH);
@@ -51,11 +45,11 @@ int main (int argc, char *argv[])
         total_msec += workload;
 
         message.rebuild(10);
-		SNPRINTF ((char *) message.data(), message.size(), "%d", workload);
+        sprintf ((char *) message.data(), "%d", workload);
         sender.send(message);
     }
     std::cout << "Total expected cost: " << total_msec <<" msec"<<std::endl;;
-    Sleep (1000);              //  Give 0MQ time to deliver
+    s_sleep (1000);              //  Give 0MQ time to deliver
 
     return 0;
 }
