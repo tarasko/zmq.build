@@ -25,15 +25,22 @@ add_definitions(
 # source files
 
 set(java-sources
+	org/zeromq/App.java
+	org/zeromq/EmbeddedLibraryTools.java
+	org/zeromq/ZContext.java
+	org/zeromq/ZFrame.java
 	org/zeromq/ZMQ.java
 	org/zeromq/ZMQException.java
 	org/zeromq/ZMQForwarder.java
 	org/zeromq/ZMQQueue.java
 	org/zeromq/ZMQStreamer.java
-	org/zeromq/EmbeddedLibraryTools.java
-	org/zeromq/App.java
+	org/zeromq/ZMsg.java
 )
 set(java-classes
+	org/zeromq/App.class
+	org/zeromq/EmbeddedLibraryTools.class
+	org/zeromq/ZContext.class
+	org/zeromq/ZFrame.class
 	org/zeromq/ZMQ.class
 	org/zeromq/ZMQ$$Context.class
 	org/zeromq/ZMQ$$Socket.class
@@ -43,8 +50,7 @@ set(java-classes
 	org/zeromq/ZMQQueue.class
 	org/zeromq/ZMQForwarder.class
 	org/zeromq/ZMQStreamer.class
-	org/zeromq/EmbeddedLibraryTools.class
-	org/zeromq/App.class
+	org/zeromq/ZMsg.class
 )
 set(javah-headers
 	org_zeromq_ZMQ.h
