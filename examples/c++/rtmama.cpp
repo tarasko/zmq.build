@@ -45,8 +45,7 @@ int main () {
 
     int worker_nbr;
     for (worker_nbr = 0; worker_nbr < NBR_WORKERS; worker_nbr++) {
-        pthread_t worker;
-        pthread_create (&worker, NULL, worker_thread, &context);
+		create_thread(&worker_thread, &context);
     }
     int task_nbr;
     for (task_nbr = 0; task_nbr < NBR_WORKERS * 10; task_nbr++) {

@@ -10,8 +10,15 @@
 
 //  Basic request-reply client using REQ socket
 //
+#ifdef _WIN32
+static unsigned
+__stdcall client_thread (void *arg) 
+#else
 static void *
-client_thread (void *arg) {
+client_thread (void *arg) 
+#endif
+{
+
 	zmq::context_t context(1);
     zmq::socket_t client (context, ZMQ_REQ);
     s_set_id (client);			//  Makes tracing easier
@@ -26,8 +33,14 @@ client_thread (void *arg) {
 
 //  Worker using REQ socket to do LRU routing
 //
+#ifdef _WIN32
+static unsigned
+__stdcall worker_thread (void *arg) 
+#else
 static void *
-worker_thread (void *arg) {
+worker_thread (void *arg) 
+#endif
+{
 	zmq::context_t context(1);
     zmq::socket_t worker (context, ZMQ_REQ);
     s_set_id (worker);          //  Makes tracing easier
@@ -68,13 +81,11 @@ int main (int argc, char *argv[])
 
     int client_nbr;
     for (client_nbr = 0; client_nbr < 10; client_nbr++) {
-        pthread_t client;
-        pthread_create (&client, NULL, client_thread, NULL);
+		create_thread(&client_thread, 0);
     }
     int worker_nbr;
     for (worker_nbr = 0; worker_nbr < 3; worker_nbr++) {
-        pthread_t worker;
-        pthread_create (&worker, NULL, worker_thread, NULL);
+		create_thread(&worker_thread, 0);
     }
     //  Logic of LRU loop
     //  - Poll backend always, frontend only if 1+ worker ready

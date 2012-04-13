@@ -37,6 +37,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 #else
+# include <process.h>
 # include <Winsock2.h>
 # include <time.h>
 #endif
@@ -295,5 +296,35 @@ static void s_catch_signals ()
     sigaction (SIGTERM, &action, NULL);
 #endif
 }
+
+#ifdef _WIN32
+typedef uintptr_t thread;
+
+thread create_thread(unsigned int (__stdcall *proc)(void*), void* arg) 
+{
+	thread h = _beginthreadex(0, 0, proc, arg, 0, 0);
+	if (-1 == h) 
+		throw std::runtime_error("cannot create thread");
+
+	return h;
+}
+
+void join_thread(thread thr)
+{
+	WaitForSingleObject(reinterpret_cast<HANDLE>(thr), INFINITE);
+}
+
+#else
+typedef pthread_t thread;
+
+thread create_thread(void* (*proc)(void*), void* arg) 
+{
+	throw std::logic_error("create_thread not implemented");
+}
+
+void join_thread(thread thr)
+{
+}
+#endif
 
 #endif

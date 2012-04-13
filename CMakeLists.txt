@@ -25,7 +25,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/stage/lib)
 
 add_subdirectory(zeromq2-x)
 add_subdirectory(jzmq)
-add_subdirectory(cpp_examples)
+add_subdirectory(examples)
 
 include(InstallRequiredSystemLibraries)
 

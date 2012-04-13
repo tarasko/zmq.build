@@ -12,8 +12,14 @@
 
 #define MAX_ALLOWED_DELAY 1000 // msecs
 
+#ifdef _WIN32
+static unsigned
+__stdcall subscriber(void *arg) 
+#else
 static void *
-subscriber (void *args) {
+subscriber(void *arg) 
+#endif
+{
     zmq::context_t context(1);
 
     // Subscribe to everything
@@ -45,8 +51,14 @@ subscriber (void *args) {
 // This is our server task
 // It publishes a time-stamped message to its pub socket every 1ms.
 
+#ifdef _WIN32
+static unsigned
+__stdcall publisher(void *arg) 
+#else
 static void *
-publisher (void *args) {
+publisher(void *arg) 
+#endif
+{
     zmq::context_t context (1);
 
     // Prepare publisher
@@ -72,12 +84,9 @@ publisher (void *args) {
 //
 int main (void)
 {
-    pthread_t server_thread;
-    pthread_create (&server_thread, NULL, publisher, NULL);
-
-    pthread_t client_thread;
-    pthread_create (&client_thread, NULL, subscriber, NULL);
-    pthread_join (client_thread, NULL);
+	auto thr = create_thread(&publisher, 0);
+	create_thread(&subscriber, 0);
+    join_thread(thr);
 
     return 0;
 }

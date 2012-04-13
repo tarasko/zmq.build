@@ -9,7 +9,14 @@
 
 //  Step 1 pushes one message to step 2
 
-void *step1 (void *arg) {
+#ifdef _WIN32
+static unsigned
+__stdcall step1 (void *arg) 
+#else
+static void *
+step1 (void *arg) 
+#endif
+{
 	
 	zmq::context_t * context = static_cast<zmq::context_t*>(arg);
 	
@@ -24,16 +31,21 @@ void *step1 (void *arg) {
 
 //  Step 2 relays the signal to step 3
 
-void *step2 (void *arg) {
-
+#ifdef _WIN32
+static unsigned
+__stdcall step2 (void *arg) 
+#else
+static void *
+step2 (void *arg) 
+#endif
+{
 	zmq::context_t * context = static_cast<zmq::context_t*>(arg);
 	
     //  Bind to inproc: endpoint, then start upstream thread
 	zmq::socket_t receiver (*context, ZMQ_PAIR);
     receiver.bind("inproc://step2");
 
-    pthread_t thread;
-    pthread_create (&thread, NULL, step1, context);
+	create_thread(&step1, context);
 
     //  Wait for signal
     s_recv (receiver);
@@ -48,16 +60,15 @@ void *step2 (void *arg) {
 
 //  Main program starts steps 1 and 2 and acts as step 3
 
-int main () {
-	
+int main () 
+{	
 	zmq::context_t context(1);
 
     //  Bind to inproc: endpoint, then start upstream thread
     zmq::socket_t receiver (context, ZMQ_PAIR);
     receiver.bind("inproc://step3");
 
-    pthread_t thread;
-    pthread_create (&thread, NULL, step2, &context);
+	create_thread(&step2, &context);
 
     //  Wait for signal
     s_recv (receiver);

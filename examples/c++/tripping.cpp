@@ -9,8 +9,13 @@
 //
 #include "zmsg.hpp"
 
+#ifdef _WIN32
+static unsigned
+__stdcall client_task(void *arg) 
+#else
 static void *
-client_task (void *args)
+client_task(void *arg) 
+#endif
 {
     zmq::context_t context (1);
     zmq::socket_t client (context, ZMQ_DEALER);
@@ -46,8 +51,13 @@ client_task (void *args)
     return 0;
 }
 
+#ifdef _WIN32
+static unsigned
+__stdcall worker_task (void *arg) 
+#else
 static void *
-worker_task (void *args)
+worker_task (void *arg) 
+#endif
 {
     zmq::context_t context (1);
     zmq::socket_t worker (context, ZMQ_DEALER);
@@ -61,8 +71,13 @@ worker_task (void *args)
     return 0;
 }
 
+#ifdef _WIN32
+static unsigned
+__stdcall broker_task (void *arg) 
+#else
 static void *
-broker_task (void *args)
+broker_task (void *arg) 
+#endif
 {
     //  Prepare our context and sockets
     zmq::context_t context (1);
@@ -98,12 +113,9 @@ int main ()
 {
     s_version_assert (2, 1);
 
-    pthread_t client;
-    pthread_create (&client, NULL, client_task, NULL);
-    pthread_t worker;
-    pthread_create (&worker, NULL, worker_task, NULL);
-    pthread_t broker;
-    pthread_create (&broker, NULL, broker_task, NULL);
-    pthread_join (client, NULL);
+	auto thr = create_thread(&client_task, 0);
+	create_thread(&worker_task, 0);
+	create_thread(&broker_task, 0);
+    join_thread(thr);
     return 0;
 }
