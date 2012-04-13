@@ -9,21 +9,48 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
+#include <vector>
 
-#define within(num) (int) ((float) num * rand () / (RAND_MAX + 1.0))
+using namespace std;
+
 #ifdef _MSC_VER
 # define SNPRINTF _snprintf
 #else
 # define SNPRINTF snprintf
 #endif
 
-int main(int argc, char *argv[]) {
+inline int within(int num)
+{
+	if (num > RAND_MAX)
+		num = RAND_MAX;
+	return (int) ((float) num * rand () / (RAND_MAX + 1.0));
+}
+
+int main(int argc, char *argv[]) 
+{
+	// Make vector of cmdline params.
+	vector<const char*> args(argv + 1, argv + argc);
+
+	// If no params are specified use defaults
+	if (args.empty())
+	{
+		args.push_back("tcp://*:5556");
+#ifndef _WIN32
+		args.push_back("ipc://weather.ipc");
+#endif
+	}
+
+	cout << "Start weather update server on endpoints:\n";
+	for_each(args.begin(), args.end(), [](const char* arg) { cout << "\t" << arg << "\n"; });
+
+	if (1 == argc) 
+		cout << "This is default endpoints, override them with command line parameters\n";
 
     //  Prepare our context and publisher
     zmq::context_t context (1);
     zmq::socket_t publisher (context, ZMQ_PUB);
-    publisher.bind("tcp://*:5556");
-    publisher.bind("ipc://weather.ipc");
+	for_each(args.begin(), args.end(), [&](const char* arg) { publisher.bind(arg); });
 
     //  Initialize random number generator
     srand ((unsigned) time (NULL));
@@ -32,7 +59,7 @@ int main(int argc, char *argv[]) {
         int zipcode, temperature, relhumidity;
 
         //  Get values that will fool the boss
-        zipcode     = within (100000);
+        zipcode     = within (20000);
         temperature = within (215) - 80;
         relhumidity = within (50) + 10;
 
