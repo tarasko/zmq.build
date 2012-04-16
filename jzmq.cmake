@@ -28,6 +28,7 @@ set(java-sources
 	org/zeromq/App.java
 	org/zeromq/EmbeddedLibraryTools.java
 	org/zeromq/ZContext.java
+	org/zeromq/ZDispatcher.java
 	org/zeromq/ZFrame.java
 	org/zeromq/ZMQ.java
 	org/zeromq/ZMQException.java
@@ -40,6 +41,7 @@ set(java-classes
 	org/zeromq/App.class
 	org/zeromq/EmbeddedLibraryTools.class
 	org/zeromq/ZContext.class
+	org/zeromq/ZDispatcher.class
 	org/zeromq/ZFrame.class
 	org/zeromq/ZMQ.class
 	org/zeromq/ZMQ$$Context.class

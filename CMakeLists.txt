@@ -23,6 +23,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/stage/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/stage/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/stage/lib)
 
+set(CPPZMQ_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cppzmq)
+
 add_subdirectory(libzmq)
 add_subdirectory(jzmq)
 add_subdirectory(examples)

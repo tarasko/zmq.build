@@ -1,4 +1,4 @@
-include_directories(${ZMQ_INCLUDE_DIR})
+include_directories(${ZMQ_INCLUDE_DIR} ${CPPZMQ_INCLUDE_DIR})
 
 file(GLOB sources RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.cpp")
 file(GLOB headers RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.hpp")
