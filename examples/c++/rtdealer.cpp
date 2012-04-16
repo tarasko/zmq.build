@@ -8,8 +8,12 @@
 //  We have two workers, here we copy the code, normally these would
 //  run on different boxes...
 //
-void *worker_a (void *arg) {
-	
+#ifdef _WIN32
+static unsigned __stdcall worker_a (void *arg) 
+#else
+static void* worker_a (void *arg) 
+#endif
+{	
 	zmq::context_t * context = (zmq::context_t *)arg;
     zmq::socket_t worker (*context, ZMQ_DEALER);
     worker.setsockopt( ZMQ_IDENTITY, "A", 1);
@@ -29,8 +33,12 @@ void *worker_a (void *arg) {
     return (NULL);
 }
 
-void *worker_b (void *arg) {
-	
+#ifdef _WIN32
+static unsigned __stdcall worker_b (void *arg) 
+#else
+static void* worker_b (void *arg) 
+#endif
+{	
 	zmq::context_t * context = (zmq::context_t *)arg;
     zmq::socket_t worker (*context, ZMQ_DEALER);
     worker.setsockopt( ZMQ_IDENTITY, "B", 1);
@@ -57,9 +65,8 @@ int main () {
     zmq::socket_t client (context, ZMQ_ROUTER);
     client.bind("ipc://routing.ipc");
 
-    pthread_t worker;
-    pthread_create (&worker, NULL, worker_a, &context);
-    pthread_create (&worker, NULL, worker_b, &context);
+	create_thread(&worker_a, &context);
+	create_thread(&worker_b, &context);
 
     //  Wait for threads to stabilize
     s_sleep (1000);

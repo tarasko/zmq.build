@@ -7,8 +7,12 @@
 
 #define NBR_WORKERS 10
 
-static void *
-worker_thread (void *arg) {
+#ifdef _WIN32
+static unsigned __stdcall worker_thread (void *arg) 
+#else
+static void* worker_thread (void *arg) 
+#endif
+{
 
     zmq::context_t * context = (zmq::context_t *)arg;
     zmq::socket_t worker (*context, ZMQ_REQ);

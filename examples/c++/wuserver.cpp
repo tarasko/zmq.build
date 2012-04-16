@@ -50,7 +50,9 @@ int main(int argc, char *argv[])
     //  Prepare our context and publisher
     zmq::context_t context (1);
     zmq::socket_t publisher (context, ZMQ_PUB);
-	for_each(args.begin(), args.end(), [&](const char* arg) { publisher.bind(arg); });
+	for_each(args.begin(), args.end(), [&](const char* arg) 
+		{ publisher.bind(arg); }
+	  );
 
     //  Initialize random number generator
     srand ((unsigned) time (NULL));

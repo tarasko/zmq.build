@@ -4,7 +4,11 @@
 
 #include "zhelpers.hpp"
 
-void *worker_routine (void *arg)
+#ifdef _WIN32
+static unsigned __stdcall worker_routine (void *arg) 
+#else
+static void* worker_routine (void *arg) 
+#endif
 {
     zmq::context_t *context = (zmq::context_t *) arg;
 
@@ -39,9 +43,9 @@ int main ()
     workers.bind ("inproc://workers");
 
     //  Launch pool of worker threads
-    for (int thread_nbr = 0; thread_nbr != 5; thread_nbr++) {
-        pthread_t worker;
-        pthread_create (&worker, NULL, worker_routine, (void *) &context);
+    for (int thread_nbr = 0; thread_nbr != 5; thread_nbr++) 
+	{
+		create_thread(&worker_routine, &context);
     }
     //  Connect work threads to client threads via a queue
     zmq::device (ZMQ_QUEUE, clients, workers);

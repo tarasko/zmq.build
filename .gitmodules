@@ -1,9 +1,14 @@
-[submodule "zeromq2-x"]
-	path = zeromq2-x
-	url = https://github.com/zeromq/zeromq2-x.git
 [submodule "jzmq"]
 	path = jzmq
 	url = https://github.com/zeromq/jzmq.git
 [submodule "zguide"]
+	
 	path = zguide
+	
 	url = https://github.com/imatix/zguide.git
+
+[submodule "libzmq"]
+	
+	path = libzmq
+	
+	url = https://github.com/zeromq/libzmq.git
