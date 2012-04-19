@@ -14,7 +14,7 @@ set(CLRZMQ_DLL "${CMAKE_CURRENT_SOURCE_DIR}/clrzmq/src/ZeroMQ/bin/$<CONFIGURATIO
 set(MSBUILD "%SYSTEMROOT%\\Microsoft.NET\\Framework\\v4.0.30319\\msbuild")
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E remove -f ${CMAKE_CURRENT_SOURCE_DIR}/clrzmq/src/ZeroMQ/packages.config)
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/nuged.exe clrzmq/src/.nuget
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/nuget.exe ${CMAKE_CURRENT_SOURCE_DIR}/clrzmq/src/.nuget)
 	
 add_custom_target(clrzmq ALL 
 	${CMAKE_COMMAND} -E copy "${STAGE_DIR}/libzmq.dll" "${LIBZMQ_TARGET_PATH}"
@@ -25,4 +25,3 @@ add_custom_target(clrzmq ALL
 	)
 
 install(FILES "${STAGE_DIR}/clrzmq.dll" DESTINATION bin)
-
