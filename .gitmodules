@@ -15,3 +15,6 @@
 [submodule "cppzmq"]
 	path = cppzmq
 	url = https://github.com/zeromq/cppzmq
+[submodule "clrzmq"]
+	path = clrzmq
+	url = https://github.com/zeromq/clrzmq
