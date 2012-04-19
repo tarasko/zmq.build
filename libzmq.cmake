@@ -21,7 +21,7 @@
 
 # $Revision$
 
-project(zmq)
+project(libzmq)
 
 if (MSVC)
 

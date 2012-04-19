@@ -140,7 +140,7 @@ list(APPEND sources zmq.jar)
 # output
 
 add_library(jzmq SHARED ${sources})
-target_link_libraries(jzmq zmq)
+target_link_libraries(jzmq libzmq)
 
 install (TARGETS jzmq RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/zmq.jar DESTINATION bin)

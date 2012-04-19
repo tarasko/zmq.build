@@ -16,16 +16,15 @@ Remove the CMakeCache.txt file and try again from another folder, e.g.:
 ")
 endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
-execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/zeromq.cmake ${CMAKE_CURRENT_SOURCE_DIR}/libzmq/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/libzmq.cmake ${CMAKE_CURRENT_SOURCE_DIR}/libzmq/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/jzmq.cmake ${CMAKE_CURRENT_SOURCE_DIR}/jzmq/CMakeLists.txt)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/stage/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/stage/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/stage/lib)
 
-# CPPZMQ part
-set(CPPZMQ_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cppzmq)
-install(FILES cppzmq/zmq.hpp DESTINATION include)
+include(cppzmq.cmake)
+include(clrzmq.cmake)
 
 add_subdirectory(libzmq)
 add_subdirectory(jzmq)
